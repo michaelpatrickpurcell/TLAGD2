@@ -1,0 +1,18 @@
+\documentclass{standalone}
+\usepackage{tlagd2}
+
+\setlength{\cardwidth}{2.5in}
+\setlength{\cardheight}{3.5in}
+\setlength{\bleed}{0in}
+\setlength{\horizspace}{0.0625in}
+\setlength{\horizdist}{\cardwidth + 2\bleed + \horizspace}
+\setlength{\vertspace}{0.0625in}
+\setlength{\vertdist}{\cardheight + 2\bleed + \vertspace}
+
+\begin{document}
+\begin{tikzpicture}
+	\draw[line width=1mm] (-5mm, -5mm) -- (5mm, 5mm);
+	\draw[line width=1mm] (-5mm, 5mm) -- (5mm, -5mm);
+	
+\end{tikzpicture}
+\end{document}

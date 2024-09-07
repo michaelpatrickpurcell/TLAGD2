@@ -1,0 +1,117 @@
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{calc}
+\usepackage{booktabs}
+\usepackage{array}
+\newlength{\cardwidth}
+\newlength{\cardheight}
+\newlength{\bleed}
+\newlength{\horizspace}
+\newlength{\vertspace}
+\newlength{\vertdist}
+\newlength{\horizdist}
+
+\setlength{\cardwidth}{2.5in}
+\setlength{\cardheight}{3.5in}
+\setlength{\bleed}{0.0625in}
+\setlength{\horizspace}{0.0625in}
+\setlength{\horizdist}{\cardwidth + 2\bleed + \horizspace}
+\setlength{\vertspace}{0.0625in}
+\setlength{\vertdist}{\cardheight + 2\bleed + \vertspace}
+
+
+\tikzset{tickbox/.pic={
+	\node[draw, thick, minimum width=10mm, minimum height=10mm, rounded corners=0.5mm, fill=white] at (0,0) {};
+%	\node[draw, thick, minimum width=10mm, minimum height=10mm, fill=white, circle] at (0,0) {};
+}}
+
+\tikzset{guidecross/.pic={
+	\draw[#1] (-\bleed,0) -- (\bleed,0);
+	\draw[#1] (0, -\bleed) -- (0, \bleed);
+}}
+
+\tikzset{cutguide/.pic={
+	\pic () at (-\cardwidth/2, \cardheight/2) {guidecross={#1}};
+	\pic () at (\cardwidth/2, \cardheight/2) {guidecross={#1}};
+	\pic () at (-\cardwidth/2, -\cardheight/2) {guidecross={#1}};
+	\pic () at (\cardwidth/2, -\cardheight/2) {guidecross={#1}};
+}}
+
+
+\tikzset{combiner/.pic={%
+		\begin{scope}
+		\clip (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+
+		% Pattern for card front
+		\node[minimum height=3.5in, minimum width=2.5in] () at (0,0) {
+			\begin{tabular}{@{\hskip 1.5mm}ccc@{\hskip 3mm}!{\vrule width 0.5mm}@{\hskip 3mm}c@{\hskip 1.5mm}}
+				\rule{0mm}{11.5mm}\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[1.5mm]\noalign{\hrule height 0.5mm}
+				\rule{0mm}{13mm}\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\
+			\end{tabular}
+		};	
+		
+		\end{scope}
+%		% Cutting guides for corners of the cards	
+		\pic () at (0,0) {cutguide={white}};
+}}
+
+\tikzset{splitter/.pic={%
+		\begin{scope}
+		\clip (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+
+		% Pattern for card front
+		\node[minimum height=3.5in, minimum width=2.5in] () at (0,0) {
+			\begin{tabular}{@{\hskip 1.5mm}c@{\hskip 3mm}!{\vrule width 0.5mm}@{\hskip 3mm}ccc@{\hskip 1.5mm}}
+				\rule{0mm}{11.5mm}\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[1.5mm]\noalign{\hrule height 0.5mm}
+				\rule{0mm}{13mm}\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\
+			\end{tabular}
+		};	
+		
+		\end{scope}
+%		% Cutting guides for corners of the cards	
+		\pic () at (0,0) {cutguide={white}};
+}}
+
+\tikzset{recombiner/.pic={%
+		\begin{scope}
+		\clip (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+
+		% Pattern for card front
+		\node[minimum height=3.5in, minimum width=2.5in] () at (0,0) {
+			\begin{tabular}{@{\hskip 1.5mm}cc@{\hskip 3mm}!{\vrule width 0.5mm}@{\hskip 3mm}cc@{\hskip 1.5mm}}
+				\rule{0mm}{11.5mm}\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[1.5mm]\noalign{\hrule height 0.5mm}
+				\rule{0mm}{13mm}\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\[2mm]
+				\tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};} & \tikz{\pic {tickbox};}\\
+			\end{tabular}
+		};	
+		
+		\end{scope}
+%		% Cutting guides for corners of the cards	
+		\pic () at (0,0) {cutguide={white}};
+}}
